@@ -425,12 +425,14 @@
               data-aos="fade-up"
               data-aos-delay="400"
               role="form"
+              id="contactForm"
             >
               <input
                 type="text"
                 class="form-control"
                 name="cf-name"
                 placeholder="Name"
+                id="name"
                 required
               />
 
@@ -448,6 +450,7 @@
                 rows="5"
                 name="cf-message"
                 placeholder="Message"
+                id="message"
               ></textarea>
 
               <button
@@ -463,12 +466,12 @@
 
           <div class="mx-auto mt-4 mt-lg-0 mt-md-0 col-lg-5 col-md-6 col-12">
             <h2 class="mb-4" data-aos="fade-up" data-aos-delay="600">
-              Where you can <span>find us</span>
+              Our sheltring location
             </h2>
 
             <p data-aos="fade-up" data-aos-delay="800">
-              <i class="fa fa-map-marker mr-1"></i> 120-240 Rio de Janeiro -
-              State of Rio de Janeiro, Brazil
+              <i class="fa fa-map-marker mr-1"></i> Middle area, Al Nuseirat
+              Camp, Gaza Strip, Palestine
             </p>
             <!-- How to change your own map point
 	1. Go to Google Maps
@@ -478,7 +481,7 @@
 -->
             <div class="google-map" data-aos="fade-up" data-aos-delay="900">
               <iframe
-                src="https://maps.google.com/maps?q=Av.+Lúcio+Costa,+Rio+de+Janeiro+-+RJ,+Brazil&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=31.4496553,34.3900683&z=16&ie=UTF8&iwloc=near&output=embed"
                 width="1920"
                 height="250"
                 frameborder="0"
@@ -526,6 +529,12 @@
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
       import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+      import {
+        getFirestore,
+        addDoc,
+        collection,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
       // TODO: Add SDKs for Firebase products that you want to use
       // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -544,10 +553,11 @@
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
+      const db = getFirestore(app);
 
       // Function to log button click event
       function logCustomEvent(eventName, eventParams) {
-        logEvent(analytics, eventName, eventParams);
+        // logEvent(analytics, eventName, eventParams);
       }
 
       // Add event listener to the button after DOM is fully loaded
@@ -559,11 +569,38 @@
           alert("Event tracked with email: " + emailInput);
         });
       });
-      const container = document.querySelector("#bootstrap-image-gallery");
-      window.lightGallery(container, {
-        selector: ".lg-item",
-        plugins: [lgZoom, lgThumbnail],
-      });
+    
+      // Submit form data to Firestore
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          var name = document.getElementById("name").value;
+          var email = document.getElementById("email").value;
+          var message = document.getElementById("message").value;
+
+          addDoc(collection(db, "contacts"), {
+            name: name,
+            email: email,
+            message: message,
+            timestamp: serverTimestamp(),
+          })
+            .then(() => {
+              alert("Message sent successfully!");
+              document.getElementById("contactForm").reset();
+            })
+            .catch((error) => {
+              console.error("Error adding document: ", error);
+              alert("Error sending message. Please try again.");
+            });
+        });
+
+      // const container = document.querySelector("#bootstrap-image-gallery");
+      // window.lightGallery(container, {
+      //   selector: ".lg-item",
+      //   plugins: [lgZoom, lgThumbnail],
+      // });
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-gallery/2.41.0/js/jquery.blueimp-gallery.min.js"></script>
@@ -574,7 +611,7 @@
     <script src="js/custom.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/gallary.js"></script>
-    <script src="js/jquery-modal-video.js"></script>
+    <!-- <script src="js/jquery-modal-video.js"></script> -->
     <!-- <script>
         window.addEventListener('DOMContentLoaded',function(){
             new ModalVideo(".js-video-btn");

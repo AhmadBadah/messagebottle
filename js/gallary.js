@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function () {  
   const images = [
     "images/beforeWar/1.jpg",
     "images/beforeWar/2.jpeg",
@@ -20,13 +20,17 @@ $(document).ready(function () {
 
   $.each(images, function (index, url) {
     const odd = index % 2 === 0;
-    
+
     const $div = $("<div></div>")
-      .addClass(odd?"col-lg-4 mb-4 mb-lg-0 px-2":"col-lg-4 col-md-12 mb-4 mb-lg-0 px-2")
+      .addClass(
+        odd
+          ? "col-lg-4 mb-4 mb-lg-0 px-2"
+          : "col-lg-4 col-md-12 mb-4 mb-lg-0 px-2"
+      )
       .attr("id", "img-" + index);
     const $a = $("<a></a>")
       .addClass("lg-item")
-      .attr("data-lg-size", odd?"1600-2400":"1600-1067")
+      .attr("data-lg-size", odd ? "1600-2400" : "1600-1067")
       .attr("data-src", url);
     const $img = $("<img>")
       .attr("src", url)
@@ -73,6 +77,28 @@ $(document).ready(function () {
   $("[unique-script-id='w-w-dm-id'] .tab").click(function () {
     $(this).addClass("tab-active").siblings().removeClass("tab-active");
   });
+
+  // // Firestore config
+  // $("#contactForm").on("submit", function (e) {
+  //   e.preventDefault();
+
+  //   const name = $("#name").val();
+  //   const email = $("#email").val();
+  //   const message = $("#message").val();
+
+  //   addDoc(collection(db, "contacts"), {
+  //     name: name,
+  //     email: email,
+  //     message: message,
+  //     timestamp: serverTimestamp(),
+  //   })
+  //     .then(() => {
+  //       alert("Message sent successfully!");
+  //       $("#contactForm")[0].reset();
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error adding document: ", error);
+  //       alert("Error sending message. Please try again.");
+  //     });
+  // });
 });
-
-
