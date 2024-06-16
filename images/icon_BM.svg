@@ -5,13 +5,8 @@
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="1080.000000pt" height="1920.000000pt" viewBox="0 0 1080.000000 1920.000000"
  preserveAspectRatio="xMidYMid meet">
-     <style>
-         g:hover {
-            fill: red; /* Change to the desired hover color */
-        }
-    </style>
 <g transform="translate(0.000000,1920.000000) scale(0.100000,-0.100000)"
-fill="#fff" stroke="#fff" stroke-width="200">
+fill="#fff" stroke="#fff" stroke-width="100">
 <path d="M8361 15075 c-17 -30 -31 -59 -31 -65 0 -5 -23 -57 -51 -115 l-51
 -105 -28 15 c-35 18 -96 20 -107 2 -10 -15 -43 -32 -112 -56 -68 -24 -83 -46
 -50 -75 19 -16 23 -29 21 -58 -3 -35 -5 -37 -30 -32 -19 4 -36 -1 -55 -16 -32
