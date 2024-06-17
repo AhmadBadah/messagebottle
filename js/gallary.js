@@ -47,7 +47,7 @@ $.each(images, function (index, url) {
     .attr("data-title", `Title ${index}`)
     .attr("data-desc", `Description ${index}`)
     .attr("data-responsive-src", url)
-    .attr("data-src", url).addClass("col-lg-4 col-md-12 mb-4 mb-lg-0 px-2");
+    .attr("data-src", url).addClass("col-4 col-md-2 mb-4");
   const $img = $("<img>").attr("src", thumbnailUrl).addClass("w-100 shadow-1-strong mb-3");
 
   if (isYouTube) {
