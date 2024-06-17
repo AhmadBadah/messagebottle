@@ -52,6 +52,9 @@ $.each(images, function (index, url) {
 
   if (isYouTube) {
     $img.css("cursor", "pointer");
+    $img.on("click", function() {
+      window.open(url, "_blank");
+    });
   }
 
   $li.append($img);
