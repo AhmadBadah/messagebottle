@@ -1,5 +1,6 @@
-$(document).ready(function () {  
+$(document).ready(function () {
   const images = [
+    "https://youtube.com/shorts/mAUS2iQNzxk",
     "images/beforeWar/1.jpg",
     "images/beforeWar/2.jpeg",
     "images/beforeWar/3.jpeg",
@@ -13,38 +14,87 @@ $(document).ready(function () {
     "images/beforeWar/11.jpg",
     "images/beforeWar/12.jpg",
     "images/beforeWar/13.jpg",
+    "https://youtu.be/L2oIswjoS2g",
     // Add more image URLs here
   ];
 
-  const $imageContainer = $("#bootstrap-image-gallery");
+  const $imageContainer = $("#lightGallery");
 
-  $.each(images, function (index, url) {
-    const odd = index % 2 === 0;
+// Function to get YouTube video ID from URL
+function getYouTubeID(url) {
+  const regExp = /^.*(?:youtu\.be\/|youtube\.com\/(?:v\/|u\/\w\/|embed\/|watch\?v=|shorts\/|v=|.*?v=))([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[1].length === 11) ? match[1] : null;
+}
 
-    const $div = $("<div></div>")
-      .addClass(
-        odd
-          ? "col-lg-4 mb-4 mb-lg-0 px-2"
-          : "col-lg-4 col-md-12 mb-4 mb-lg-0 px-2"
-      )
-      .attr("id", "img-" + index);
-    const $a = $("<a></a>")
-      .addClass("lg-item")
-      .attr("data-lg-size", odd ? "1600-2400" : "1600-1067")
-      .attr("data-src", url);
-    const $img = $("<img>")
-      .attr("src", url)
-      .attr("alt", "Image description")
-      .addClass("w-100 shadow-1-strong mb-3");
-    $a.append($img);
-    // Add appropriate alt text
-    // const $overlay = $("<div></div>").addClass("overlay");
-    // const $desc = $("<div></div>").addClass("desc").text("Description for image " + (index + 1)); // Add appropriate description
+// Function to create YouTube thumbnail URL
+function getYouTubeThumbnail(id) {
+  return `https://img.youtube.com/vi/${id}/0.jpg`;
+}
 
-    $div.append($a);
-    $imageContainer.append($div);
+$.each(images, function (index, url) {
+  const isYouTube = url.includes("youtu");
+  let thumbnailUrl = url;
+
+  if (isYouTube) {
+    const videoID = getYouTubeID(url);
+    if (videoID) {
+      thumbnailUrl = getYouTubeThumbnail(videoID);
+    }
+  }
+
+  const $li = $("<li></li>")
+    .attr("data-title", `Title ${index}`)
+    .attr("data-desc", `Description ${index}`)
+    .attr("data-responsive-src", url)
+    .attr("data-src", url).addClass("col-lg-4 col-md-12 mb-4 mb-lg-0 px-2");
+  const $img = $("<img>").attr("src", thumbnailUrl).addClass("w-100 shadow-1-strong mb-3");
+
+  if (isYouTube) {
+    $img.css("cursor", "pointer");
+  }
+
+  $li.append($img);
+  $imageContainer.append($li);
   });
 
+  $("#next").on("click", function () {
+    $imageContainer.animate(
+      {
+        scrollLeft: "+=300px",
+      },
+      "slow"
+    );
+  });
+
+  $("#prev").on("click", function () {
+    $imageContainer.animate(
+      {
+        scrollLeft: "-=300px",
+      },
+      "slow"
+    );
+  });
+
+  $(document).on("keydown", function (e) {
+    if (e.key === "ArrowRight") {
+      $imageContainer.animate(
+        {
+          scrollLeft: "+=300px",
+        },
+        "slow"
+      );
+    } else if (e.key === "ArrowLeft") {
+      $imageContainer.animate(
+        {
+          scrollLeft: "-=300px",
+        },
+        "slow"
+      );
+    }
+  });
+  // console.log({ $xli });
+  // $ul.append($xli);
   // Event listeners
   $("[unique-script-id='w-w-dm-id'] .img .desc").hide();
 

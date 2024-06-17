@@ -21,11 +21,15 @@
     />
     <link rel="stylesheet" href="css/gallary.css" />
     <link rel="stylesheet" href="css/aos.css" />
-    <link rel="stylesheet" href="./css/gallary.css" />
+    <link rel="stylesheet" href="./css/gallery.css" />
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="css/tooplate-gymso-style.css" />
+    <link
+      rel="stylesheet"
+      href="lightGallery-1.10.0/dist/css/lightgallery.min.css"
+    />
     <!-- ----------------------------- VIDEO MODAL ----------------------------- -->
-    <link rel="stylesheet" type="text/css" href="css/modal-video.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="css/modal-video.min.css" /> -->
   </head>
 
   <body data-spy="scroll" data-target="#navbarNav" data-offset="50">
@@ -401,7 +405,40 @@
           <div class="col-lg-12 py-5 col-md-12 col-12">
             <div class="featured_projects" unique-script-id="w-w-dm-id">
               <div class="container-block bg">
-                <div id="bootstrap-image-gallery" class="row mx-0"></div>
+                <div
+                  id="bootstrap-image-gallery"
+                  class="row mx-0 position-relative"
+                >
+                  <button
+                    id="prev"
+                    class="btn btn-primary position-absolute"
+                    style="
+                      top: 50%;
+                      left: 0;
+                      transform: translateY(-50%);
+                      z-index: 10;
+                    "
+                  >
+                    &#10094;
+                  </button>
+                  <button
+                    id="next"
+                    class="btn btn-primary position-absolute"
+                    style="
+                      top: 50%;
+                      right: 0;
+                      transform: translateY(-50%);
+                      z-index: 10;
+                    "
+                  >
+                    &#10095;
+                  </button>
+                  <ul
+                    id="lightGallery"
+                    class="gallery d-flex flex-row overflow-auto"
+                    style="white-space: nowrap"
+                  ></ul>
+                </div>
               </div>
             </div>
           </div>
@@ -569,7 +606,7 @@
           alert("Event tracked with email: " + emailInput);
         });
       });
-    
+
       // Submit form data to Firestore
       document
         .getElementById("contactForm")
@@ -611,6 +648,76 @@
     <script src="js/custom.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/gallary.js"></script>
+    <script src="lightGallery-1.10.0/dist/js/lightgallery-all.min.js"></script>
+    <!-- Core -->
+    <script src="lightGallery-1.10.0/dist/js/lightgallery.min.js"></script>
+    <!-- Autoplay -->
+    <script src="lightGallery-1.10.0/modules/lg-autoplay.js"></script>
+    <!-- Fullscreen -->
+    <script src="lightGallery-1.10.0/modules/lg-fullscreen.js"></script>
+    <!-- Hashtag -->
+    <script src="lightGallery-1.10.0/modules/lg-hash.js"></script>
+    <!-- Pager -->
+    <script src="lightGallery-1.10.0/modules/lg-pager.js"></script>
+    <!-- Rotate -->
+    <script src="lightGallery-1.10.0/modules/lg-rotate.js"></script>
+    <!-- Social share -->
+    <script src="lightGallery-1.10.0/modules/lg-share.js"></script>
+    <!-- <a href="https://www.jqueryscript.net/tags.php?/Thumbnail/">Thumbnail</a> -->
+    <script src="lightGallery-1.10.0/modules/lg-thumbnail.js"></script>
+    <!-- HTML5/YOUTUBE/VIMEO Video -->
+    <script src="lightGallery-1.10.0/modules/lg-video.js"></script>
+    <!-- <a href="https://www.jqueryscript.net/zoom/">Zoom</a> -->
+    <script src="lightGallery-1.10.0/modules/lg-zoom.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#lightGallery").lightGallery();
+        $("#lightGallery").lightGallery({
+          mode: "lg-slide",
+          cssEasing: "ease",
+          easing: "linear",
+          speed: 600,
+          height: "100%",
+          width: "100%",
+          addClass: "",
+          startClass: "lg-start-zoom",
+          backdropDuration: 150,
+          hideBarsDelay: 6000,
+          useLeft: false,
+          ariaLabelledby: "",
+          ariaDescribedby: "",
+          closable: true,
+          loop: true,
+          escKey: true,
+          keyPress: true,
+          controls: true,
+          slideEndAnimatoin: true,
+          hideControlOnEnd: false,
+          mousewheel: true,
+          getCaptionFromTitleOrAlt: true,
+          appendSubHtmlTo: ".lg-sub-html",
+          subHtmlSelectorRelative: false,
+          preload: 1,
+          showAfterLoad: true,
+          selector: "",
+          selectWithin: "",
+          nextHtml: "",
+          prevHtml: "",
+          index: false,
+          iframeMaxWidth: "100%",
+          download: true,
+          counter: true,
+          appendCounterTo: ".lg-toolbar",
+          swipeThreshold: 50,
+          enableSwipe: true,
+          enableDrag: true,
+          dynamic: false,
+          dynamicEl: [],
+          galleryId: 1,
+          supportLegacyBrowser: true,
+        });
+      });
+    </script>
     <!-- <script src="js/jquery-modal-video.js"></script> -->
     <!-- <script>
         window.addEventListener('DOMContentLoaded',function(){
