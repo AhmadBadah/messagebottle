@@ -1,6 +1,5 @@
 $(document).ready(function () {
   const images = [
-    "https://youtube.com/shorts/mAUS2iQNzxk",
     "images/beforeWar/1.jpg",
     "images/beforeWar/2.jpeg",
     "images/beforeWar/3.jpeg",
@@ -14,144 +13,114 @@ $(document).ready(function () {
     "images/beforeWar/11.jpg",
     "images/beforeWar/12.jpg",
     "images/beforeWar/13.jpg",
+    "https://youtu.be/Ilo0yfKxJzQ?si=t2QLRSu330q0p5pm",
+    "https://youtu.be/L2DGKDvOz6Q?si=3yhJo0mTF3pwBU3h",
     "https://youtu.be/L2oIswjoS2g",
+    "https://youtu.be/Zs4H517Rmg0?si=N0mdrVI4fWLFfMJF",
+    "https://youtu.be/27zknkFjpKg?si=qtO4mSRo7GkwYRzx",
+    "https://youtu.be/XOArnOIGRrY?si=T7bMFsX-l_NVSnWt"
     // Add more image URLs here
   ];
 
-  const $imageContainer = $("#lightGallery");
-
-// Function to get YouTube video ID from URL
-function getYouTubeID(url) {
-  const regExp = /^.*(?:youtu\.be\/|youtube\.com\/(?:v\/|u\/\w\/|embed\/|watch\?v=|shorts\/|v=|.*?v=))([^#\&\?]*).*/;
-  const match = url.match(regExp);
-  return (match && match[1].length === 11) ? match[1] : null;
-}
-
-// Function to create YouTube thumbnail URL
-function getYouTubeThumbnail(id) {
-  return `https://img.youtube.com/vi/${id}/0.jpg`;
-}
-
-$.each(images, function (index, url) {
-  const isYouTube = url.includes("youtu");
-  let thumbnailUrl = url;
-
-  if (isYouTube) {
-    const videoID = getYouTubeID(url);
-    if (videoID) {
-      thumbnailUrl = getYouTubeThumbnail(videoID);
+    // Fisher-Yates shuffle algorithm to shuffle the array
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
     }
-  }
 
-  const $li = $("<li></li>")
-    .attr("data-title", `Title ${index}`)
-    .attr("data-desc", `Description ${index}`)
-    .attr("data-responsive-src", url)
-    .attr("data-src", url).addClass("col-4 col-md-2 mb-4");
-  const $img = $("<img>").attr("src", thumbnailUrl).addClass("w-100 shadow-1-strong mb-3");
 
-  if (isYouTube) {
-    $img.css("cursor", "pointer");
-    $img.on("click", function() {
-      window.open(url, "_blank");
+  function displayImages() {
+    const $imageContainer = $("#lightGallery");
+
+    // Function to get YouTube video ID from URL
+    function getYouTubeID(url) {
+      const regExp =
+        /^.*(?:youtu\.be\/|youtube\.com\/(?:v\/|u\/\w\/|embed\/|watch\?v=|shorts\/|v=|shorts\/|.*?v=))([^#\&\?]*).*/;
+      const match = url.match(regExp);
+      return match && match[1].length > 0 ? match[1] : null;
+    }
+    // Function to create YouTube thumbnail URL
+    function getYouTubeThumbnail(id) {
+      return `https://img.youtube.com/vi/${id}/0.jpg`;
+    }
+     // Shuffle the images array
+     const shuffledImages = shuffle(images);
+
+    $.each(shuffledImages, function (index, url) {
+      const isYouTube = url.includes("youtu");
+      let fullImageUrl = url;
+      let thumbnailUrl = url;
+      let content;
+
+      if (isYouTube) {
+        const videoID = getYouTubeID(url);
+        if (videoID) {
+          thumbnailUrl = getYouTubeThumbnail(videoID);
+          content = `<iframe src="https://www.youtube.com/embed/${videoID}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        }
+      } else {
+        content = `<img src="${thumbnailUrl}" class="w-100 shadow-1-strong mb-3" />`;
+      }
+      const $li = $("<li></li>")
+        .attr("data-title", `Title ${index}`)
+        .attr("data-desc", `Description ${index}`)
+        .attr("data-responsive-src", fullImageUrl)
+        .attr("data-src", fullImageUrl)
+        .addClass("col-4 col-md-2 mb-4");
+      const $img = $("<img>")
+        .attr("src", thumbnailUrl)
+        .addClass("w-100 shadow-1-strong mb-3");
+
+      if (isYouTube) {
+        $img.css("cursor", "pointer");
+        const $overlay = $('<div class="video-icon-overlay"></div>');
+        const $videoIcon = $('<img class="video-icon" src="images/youtube.svg">');
+        $overlay.append($videoIcon);
+        $li.append($overlay);
+      }
+
+      $li.append($img);
+      $imageContainer.append($li);
     });
-  }
 
-  $li.append($img);
-  $imageContainer.append($li);
-  });
-
-  $("#next").on("click", function () {
-    $imageContainer.animate(
-      {
-        scrollLeft: "+=300px",
-      },
-      "slow"
-    );
-  });
-
-  $("#prev").on("click", function () {
-    $imageContainer.animate(
-      {
-        scrollLeft: "-=300px",
-      },
-      "slow"
-    );
-  });
-
-  $(document).on("keydown", function (e) {
-    if (e.key === "ArrowRight") {
+    $("#next").on("click", function () {
       $imageContainer.animate(
         {
           scrollLeft: "+=300px",
         },
         "slow"
       );
-    } else if (e.key === "ArrowLeft") {
+    });
+
+    $("#prev").on("click", function () {
       $imageContainer.animate(
         {
           scrollLeft: "-=300px",
         },
         "slow"
       );
-    }
-  });
-  // console.log({ $xli });
-  // $ul.append($xli);
-  // Event listeners
-  $("[unique-script-id='w-w-dm-id'] .img .desc").hide();
+    });
 
-  $("[unique-script-id='w-w-dm-id'] .img").mouseenter(function (item) {
-    $("[unique-script-id='w-w-dm-id'] .img .overlay").removeClass(
-      "overlay-visible"
-    );
-    $("[unique-script-id='w-w-dm-id'] .img .desc").hide();
-    $("#" + $(item.currentTarget).attr("id") + " .overlay").addClass(
-      "overlay-visible"
-    );
-    $("#" + $(item.currentTarget).attr("id") + " .desc").show();
-    console.log(item.currentTarget);
-  });
-
-  $("[unique-script-id='w-w-dm-id'] .tab").click(function () {
-    const value = $(this).attr("data-filter");
-    if (value == "all") {
-      $("[unique-script-id='w-w-dm-id'] .img").show("5000");
-    } else {
-      $("[unique-script-id='w-w-dm-id'] .img")
-        .not("." + value)
-        .hide("5000");
-      $("[unique-script-id='w-w-dm-id'] .img")
-        .filter("." + value)
-        .show("5000");
-    }
-  });
-
-  $("[unique-script-id='w-w-dm-id'] .tab").click(function () {
-    $(this).addClass("tab-active").siblings().removeClass("tab-active");
-  });
-
-  // // Firestore config
-  // $("#contactForm").on("submit", function (e) {
-  //   e.preventDefault();
-
-  //   const name = $("#name").val();
-  //   const email = $("#email").val();
-  //   const message = $("#message").val();
-
-  //   addDoc(collection(db, "contacts"), {
-  //     name: name,
-  //     email: email,
-  //     message: message,
-  //     timestamp: serverTimestamp(),
-  //   })
-  //     .then(() => {
-  //       alert("Message sent successfully!");
-  //       $("#contactForm")[0].reset();
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error adding document: ", error);
-  //       alert("Error sending message. Please try again.");
-  //     });
-  // });
+    $(document).on("keydown", function (e) {
+      if (e.key === "ArrowRight") {
+        $imageContainer.animate(
+          {
+            scrollLeft: "+=300px",
+          },
+          "slow"
+        );
+      } else if (e.key === "ArrowLeft") {
+        $imageContainer.animate(
+          {
+            scrollLeft: "-=300px",
+          },
+          "slow"
+        );
+      }
+    });
+  }
+  displayImages();
 });
