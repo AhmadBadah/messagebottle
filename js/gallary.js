@@ -17,7 +17,6 @@ $(document).ready(function () {
     "images/beforeWar/15.jpg",
     "images/beforeWar/16.jpg",
     "images/beforeWar/17.jpg",
-    "images/beforeWar/18.mp4",
     "https://youtu.be/Ilo0yfKxJzQ?si=t2QLRSu330q0p5pm",
     "https://youtu.be/L2DGKDvOz6Q?si=3yhJo0mTF3pwBU3h",
     "https://youtu.be/L2oIswjoS2g",
