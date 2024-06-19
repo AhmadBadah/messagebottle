@@ -71,9 +71,25 @@
   align-items: center;
   opacity: 1;
   transition: opacity 0.3s;
-
 }
 
 .gallery li:hover .video-icon-overlay {
   opacity: 1;
+}
+
+.tabs {
+  color: #fff;
+  text-align: center;
+  font-size: larger;
+
+}
+
+.tablink {
+  cursor: pointer;
+}
+
+.active-tab {
+  font-weight: bolder;
+  color: var(--primary-color) !important;
+  transition: all 0.3s ease;
 }

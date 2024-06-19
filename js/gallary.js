@@ -13,27 +13,32 @@ $(document).ready(function () {
     "images/beforeWar/11.jpg",
     "images/beforeWar/12.jpg",
     "images/beforeWar/13.jpg",
+    "images/beforeWar/14.jpg",
+    "images/beforeWar/15.jpg",
+    "images/beforeWar/16.jpg",
+    "images/beforeWar/17.jpg",
+    "images/beforeWar/18.mp4",
     "https://youtu.be/Ilo0yfKxJzQ?si=t2QLRSu330q0p5pm",
     "https://youtu.be/L2DGKDvOz6Q?si=3yhJo0mTF3pwBU3h",
     "https://youtu.be/L2oIswjoS2g",
     "https://youtu.be/Zs4H517Rmg0?si=N0mdrVI4fWLFfMJF",
     "https://youtu.be/27zknkFjpKg?si=qtO4mSRo7GkwYRzx",
-    "https://youtu.be/XOArnOIGRrY?si=T7bMFsX-l_NVSnWt"
+    "https://youtu.be/XOArnOIGRrY?si=T7bMFsX-l_NVSnWt",
     // Add more image URLs here
   ];
 
-    // Fisher-Yates shuffle algorithm to shuffle the array
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
+  // Fisher-Yates shuffle algorithm to shuffle the array
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
-
+    return array;
+  }
 
   function displayImages() {
     const $imageContainer = $("#lightGallery");
+    $imageContainer.empty();
 
     // Function to get YouTube video ID from URL
     function getYouTubeID(url) {
@@ -46,8 +51,8 @@ $(document).ready(function () {
     function getYouTubeThumbnail(id) {
       return `https://img.youtube.com/vi/${id}/0.jpg`;
     }
-     // Shuffle the images array
-     const shuffledImages = shuffle(images);
+    // Shuffle the images array
+    const shuffledImages = shuffle(images);
 
     $.each(shuffledImages, function (index, url) {
       const isYouTube = url.includes("youtu");
@@ -77,50 +82,54 @@ $(document).ready(function () {
       if (isYouTube) {
         $img.css("cursor", "pointer");
         const $overlay = $('<div class="video-icon-overlay"></div>');
-        const $videoIcon = $('<img class="video-icon" src="images/youtube.svg">');
+        const $videoIcon = $(
+          '<img class="video-icon" src="images/youtube.svg">'
+        );
         $overlay.append($videoIcon);
         $li.append($overlay);
       }
 
-      $li.append($img);
+      $li.append($img).css("cursor", "pointer");
       $imageContainer.append($li);
     });
+  }
+  // Display images for both tabs
+  displayImages();
 
-    $("#next").on("click", function () {
-      $imageContainer.animate(
+  // Add event listeners for scroll buttons
+  $("#next").on("click", function () {
+    $("#lightGallery").animate(
+      {
+        scrollLeft: "+=300px",
+      },
+      "slow"
+    );
+  });
+
+  $("#prev").on("click", function () {
+    $("#lightGallery").animate(
+      {
+        scrollLeft: "-=300px",
+      },
+      "slow"
+    );
+  });
+
+  $(document).on("keydown", function (e) {
+    if (e.key === "ArrowRight") {
+      $("#lightGallery").animate(
         {
           scrollLeft: "+=300px",
         },
         "slow"
       );
-    });
-
-    $("#prev").on("click", function () {
-      $imageContainer.animate(
+    } else if (e.key === "ArrowLeft") {
+      $("#lightGallery").animate(
         {
           scrollLeft: "-=300px",
         },
         "slow"
       );
-    });
-
-    $(document).on("keydown", function (e) {
-      if (e.key === "ArrowRight") {
-        $imageContainer.animate(
-          {
-            scrollLeft: "+=300px",
-          },
-          "slow"
-        );
-      } else if (e.key === "ArrowLeft") {
-        $imageContainer.animate(
-          {
-            scrollLeft: "-=300px",
-          },
-          "slow"
-        );
-      }
-    });
-  }
-  displayImages();
+    }
+  });
 });
