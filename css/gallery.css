@@ -17,6 +17,7 @@
   height: 300px; /* Fixed height for images */
   object-fit: cover;
   max-width: 100%;
+  z-index: 0;
 }
 
 .btn-primary {
